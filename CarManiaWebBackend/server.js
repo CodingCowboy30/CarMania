@@ -1,17 +1,14 @@
-const express = require('express')
+const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Joi = require('joi')
+const cors = require('cors'); // Import cors
+const Joi = require('joi');
 const Car = require('./Cars/carModel');
+
 const app = express();
 const idSchema = Joi.string().pattern(/^[0-9a-fA-F]{24}$/);
-const idsSchema = Joi.object({
-  ids: Joi.array().items(idSchema).required().messages({
-      'array.base': `"ids" should be an array`,
-      'array.includesRequiredUnknowns': `"ids" should contain valid IDs`,
-      'string.pattern.base': `"ids" should contain valid MongoDB IDs` // you can customize messages
-  })
-});
+
+app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
 mongoose.connect(
@@ -19,28 +16,50 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
-// all car data
+// All car data
 app.get('/cardata', async (req, res) => {
   try {
-    const car = await Car.find();
+    const filters = {};
+    if (req.query.make) filters.make = req.query.make;
+    if (req.query.model) filters.model = req.query.model;
+    if (req.query.year) filters.year = Number(req.query.year);
+    if (req.query.price) filters.price = Number(req.query.price);
+    if (req.query.rating) filters.rating = Number(req.query.rating);
+    if (req.query.mileage) filters.mileage = Number(req.query.mileage);
+    if (req.query.oneOwner) filters.oneOwner = req.query.oneOwner === 'true';
+    if (req.query.status) filters.status = req.query.status;
+    const car = await Car.find(filters);
     res.status(200).send(car);
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
-// add new car
-app.post('/cardata', async (req, res) => {
+// One  car data by ID for rendering on CarDetail Page
+app.get('/cardata/:id', async (req, res) => {
     try {
-      const cars = Array.isArray(req.body) ? req.body : [req.body]; // Ensure req.body is an array
-      const savedCars = await Car.insertMany(cars);
-      res.status(201).send(savedCars);
+      const car = await Car.findById(req.params.id);
+      if (!car) {
+        return res.status(404).send({ error: 'Car not found' });
+      }
+      res.status(200).send(car);
     } catch (error) {
-      res.status(400).send(error);
+      res.status(500).send(error);
     }
   });
 
-//  update  existing car by ID
+// Add new car
+app.post('/cardata', async (req, res) => {
+  try {
+    const cars = Array.isArray(req.body) ? req.body : [req.body]; // Ensure req.body is an array
+    const savedCars = await Car.insertMany(cars);
+    res.status(201).send(savedCars);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// Update existing car by ID
 app.put('/cardata/:id', async (req, res) => {
   try {
     const car = await Car.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
@@ -53,12 +72,12 @@ app.put('/cardata/:id', async (req, res) => {
   }
 });
 
-// remove a car by ID
+// Remove a car by ID
 app.delete('/cardata/:id', async (req, res) => {
   try {
     const car = await Car.findByIdAndDelete(req.params.id);
     if (!car) {
-      return res.status(404).send({error: "Invalid ID No Car Found"});
+      return res.status(404).send({ error: "Invalid ID No Car Found" });
     }
     res.status(200).send(car);
   } catch (error) {
@@ -66,13 +85,13 @@ app.delete('/cardata/:id', async (req, res) => {
   }
 });
 
-// This will remove multiple cars by an array of IDs in the raw data body tab on PostMan
+// Remove multiple cars by an array of IDs
 app.delete('/cardata', async (req, res) => {
   try {
-    const ids = req.body.ids; // This is for the andling if req.body.ids is an array of IDs
+    const ids = req.body.ids; // This is for the handling if req.body.ids is an array of IDs
     if (!Array.isArray(ids) || ids.length === 0) {
-        return res.status(400).send({ error: 'Invalid input: Provide an array of IDs' });
-      }
+      return res.status(400).send({ error: 'Invalid input: Provide an array of IDs' });
+    }
     const result = await Car.deleteMany({ _id: { $in: ids } });
     res.status(200).send(result);
   } catch (error) {
