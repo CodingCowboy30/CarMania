@@ -10,8 +10,14 @@ import {
 import { Link } from "react-router-dom";
 
 const CarCard = ({ car }) => (
-  <Card  sx={{ width: "85%", margin: 0}}>
-    <CardMedia component="img" height="300" image={car.photo} alt={car.model} />
+  <Card  sx={{ width: "90%", margin: 2, padding: 2}}>
+    <CardMedia 
+    component="img" 
+    height="300" 
+    sx={{ width: '100%', objectFit: 'scale-down' }} 
+    image={car.photo} 
+    alt={car.model} 
+  />
     <CardContent>
       <Typography variant="h5" component="div">
         {car.make} {car.model}

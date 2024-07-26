@@ -57,7 +57,7 @@ const SellCar = () => {
   };
 
   return (
-    <Container maxWidth={false}>
+    <Container>
       <Typography variant="h2" gutterBottom>
         Sell Your Car
       </Typography>
@@ -145,7 +145,12 @@ const SellCar = () => {
             <MenuItem value="Pending Sale">Pending Sale</MenuItem>
           </Select>
         </FormControl>
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ width: '150px', margin: '0 auto', display: 'block', padding: '10px 20px', fontSize: '16px' }}
+        >
           Submit
         </Button>
       </Box>

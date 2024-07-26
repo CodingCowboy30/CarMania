@@ -19,7 +19,7 @@ const Inventory = () => {
   }, []);
 
   return (
-    <Container maxWidth={false}>
+    <Container>
       <Typography variant="h2" gutterBottom>
         Inventory
       </Typography>
