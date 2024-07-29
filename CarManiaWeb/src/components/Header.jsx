@@ -73,7 +73,7 @@ function Header() {
               },
             }}
           >
-            Car(r) Maniag
+            Car(r) Mania
           </Typography>
         </Box><Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
           <Box>
