@@ -1,4 +1,3 @@
-https://github.com/CodingCowboy30/CarMania/tree/master
 
 Carr Mania
 Carr Mania is a comprehensive web application for browsing, selling, and managing car inventory. This project demonstrates the integration of a robust backend with an intuitive frontend using various modern web technologies. This project is part of my coursework to obtain a Fullstack Certification.
