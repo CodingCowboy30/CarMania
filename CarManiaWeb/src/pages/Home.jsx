@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import SearchBar from "../components/SearchBar";
-import CarList from "../components/CarList";
 import Filter from "../components/Filter";
-import { Container, Box } from "@mui/material";
+import CarCard from "../components/CarCard"; // Import CarCard
+import { Container, Box, Grid, } from "@mui/material";
 
 const Home = () => {
   const [cars, setCars] = useState([]);
+  const [searchCriteria, setSearchCriteria] = useState({});
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -17,6 +18,7 @@ const Home = () => {
   }, []);
 
   const handleSearch = async (criteria) => {
+    setSearchCriteria(criteria);
     const response = await axios.get("http://localhost:3000/cardata", {
       params: criteria,
     });
@@ -24,8 +26,9 @@ const Home = () => {
   };
 
   const handleFilter = async (criteria) => {
+    const combinedCriteria = { ...searchCriteria, ...criteria };
     const response = await axios.get("http://localhost:3000/cardata", {
-      params: criteria,
+      params: combinedCriteria,
     });
     setCars(response.data);
   };
@@ -35,13 +38,20 @@ const Home = () => {
       <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
         <SearchBar onSearch={handleSearch} />
       </Box>
-
-      <Box sx={{ display: "flex", flexDirection: "row", height: "400vh" }}>
-        <Box sx={{ flexBasis: "30%", marginRight: "20px" }}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={3}>
           <Filter onFilter={handleFilter} />
-        </Box>
-        <CarList cars={cars} />
-      </Box>
+        </Grid>
+        <Grid item xs={12} md={9}>
+          <Grid container spacing={3}>
+            {cars.map((car) => (
+              <Grid item xs={12} sm={6} md={4} key={car._id}>
+                <CarCard car={car} />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

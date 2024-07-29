@@ -3,7 +3,7 @@ import { Container, Typography } from "@mui/material";
 
 const CarDetailPage = () => (
   <Container maxWidth='100vw'>
-    <Typography variant="h2" gutterBottom>
+    <Typography color="black" variant="h2" gutterBottom>
       Car Details
     </Typography>
     <CarDetail />

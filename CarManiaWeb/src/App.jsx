@@ -8,6 +8,7 @@ import SellCar from "./pages/SellCar";
 import Contact from "./pages/Contact";
 import CarDetailPage from "./pages/CarDetailPage";
 import HeroSection from "./components/HeroSection";
+import ContactButton from "./components/ContactButton";
 
 const App = () => {
   const location = useLocation();
@@ -15,7 +16,9 @@ const App = () => {
   return (
     <div>
       <Header />
-      {location.pathname === '/' && <HeroSection />}
+      {location.pathname === "/" && <HeroSection />}{/* This is for rendering the herosection/Jumbotron only on the homepage */}
+      {location.pathname !== "/contact" && <ContactButton />}
+      {/* This will render the Contact button and modal on every page except the actual Contact Page*/}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/inventory" element={<Inventory />} />
@@ -23,8 +26,6 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/car/:id" element={<CarDetailPage />} />
       </Routes>
-      <Contact />
-      {/* This will render the Contact button and modal on every page */}
       <Footer />
     </div>
   );

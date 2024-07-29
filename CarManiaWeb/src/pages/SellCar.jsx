@@ -145,14 +145,22 @@ const SellCar = () => {
             <MenuItem value="Pending Sale">Pending Sale</MenuItem>
           </Select>
         </FormControl>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ width: '150px', margin: '0 auto', display: 'block', padding: '10px 20px', fontSize: '16px' }}
-        >
-          Submit
-        </Button>
+        
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{
+              width: "150px",
+              margin: "auto",
+              display: "block",
+              padding: "10px 20px ",
+              fontSize: "16px",
+            }}
+          >
+            Submit
+          </Button>
+        <Box sx={{padding:"90px"}}></Box>
       </Box>
     </Container>
   );
