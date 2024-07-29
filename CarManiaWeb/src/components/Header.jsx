@@ -73,7 +73,7 @@ function Header() {
               },
             }}
           >
-            Carr Mania
+            Car(r) Maniag
           </Typography>
         </Box><Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
           <Box>
