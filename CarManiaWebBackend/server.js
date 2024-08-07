@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -6,6 +7,7 @@ const Joi = require('joi');
 const Car = require('./Cars/carModel');
 
 const app = express();
+// eslint-disable-next-line no-unused-vars
 const idSchema = Joi.string().pattern(/^[0-9a-fA-F]{24}$/);
 
 app.use(cors()); // Enable CORS

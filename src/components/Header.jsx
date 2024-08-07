@@ -31,7 +31,7 @@ function Header() {
   }; */
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: "#333" }}>
+    <AppBar position="sticky" sx={{ width: "100vw" ,backgroundColor: "#333" }}>
       <Toolbar disableGutters>
         <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
           <IconButton
